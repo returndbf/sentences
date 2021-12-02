@@ -1,0 +1,41 @@
+server:
+  port: 80
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3307/sentences?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC&autoReconnect=true
+    username: root
+    password: Qxf990919.
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  druid:
+  test-on-borrow: true
+  test-while-idle: true
+  redis:
+    #连接池
+    jedis:
+      pool:
+        #最大连接个数
+        max-active: 10
+        #等待时间
+        max-wait: 6000ms
+        #最大空闲
+        max-idle: 8
+        #初始化最小
+        min-idle: 5
+        #操作第几个库
+
+    database: 1
+    #redis路径
+    host: 127.0.0.1
+    password: Qxf990919.
+    connect-timeout: 5000
+    port: 6379
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+pagehelper:
+  helperDialect: mysql
+  params: count=countSql
+  reasonable: true
+  supportMethodsArguments: true
