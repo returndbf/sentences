@@ -46,8 +46,12 @@ public class Result<T> {
     }
    //final Result successResult=new Result(Code.SUCCESSCODE,Code.SUCCESSMSG,);
     //默认成功方法
-    public Result successResult(T data){
+    public Result<T> successResult(T data){
         return new Result<>((Integer) Code.SUCCESSCODE.getValue(),(String)Code.SUCCESSMSG.getValue(),data);
+    }
+    //自定义msg
+    public Result<T> successResult(String msg,T data){
+        return new Result<>((Integer) Code.SUCCESSCODE.getValue(),msg,data);
     }
     //默认失败方法
     public Result failResult(){

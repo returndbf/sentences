@@ -10,13 +10,14 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @ToString
 @Accessors(chain = true)
-
 public class Goods {
     private  int id;
 
     private String name;
 
     private String title;
+
+    private String type;
 
     private BigDecimal price;
 
@@ -26,9 +27,9 @@ public class Goods {
 
     private String img;
 
-    private String upload_time;
+    private String uploadTime;
 
-    private String update_time;
+    private String updateTime;
 
     private int del_flag;
 

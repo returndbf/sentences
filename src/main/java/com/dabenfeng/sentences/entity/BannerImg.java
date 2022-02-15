@@ -18,4 +18,6 @@ public class BannerImg {
     private String uploadTime;
     private String updateTime;
     private String img;
+    private String url;
+    private int type;
 }
