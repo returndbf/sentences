@@ -12,6 +12,12 @@ public interface ChooseMapper {
     @Select("SELECT concat (prefix,content) FROM `choose_content` where del_flag = 0 ORDER BY RAND() LIMIT 1")
     public String getRandomChoose();
 
+    @Select("SELECT concat (prefix,content) FROM `choose_content` ")
+    public List<Choose> getAllChoose();
+
+    @Select("select * from choose_content where prefix = #{prefix} ")
+    public List<Choose> getAllChooseByPrefix(String prefix);
+
     @Select("select * from choose_content where prefix = #{prefix} and del_flag = 0")
     public List<Choose> getChooseByPrefix(String prefix);
 

@@ -90,12 +90,16 @@ public class BlogController {
         }else{
             return result.successResult("今日可写日志",true);
         }
-
-
     }
+    @RequestMapping("selectBlogsByUserId")
+    public Result<List<Blog>> selectBlogsByUserId(int userId){
+        List <Blog> userBlogs = blogService.selectBlogsByUserId(userId);
+        if(userBlogs.size()>0&&userBlogs!=null){
+            return result.successResult(userBlogs);
+        }else{
+            return result.successResult("没有日志",null);
+        }
 
-    public List<Blog> selectBlogsByUserId(int UserId){
-        return null;
     };
 
     @RequestMapping("selectBlogsByMonth")
@@ -105,6 +109,16 @@ public class BlogController {
             return result.successResult("获取"+blog.getUploadMonth()+"月日志成功",blogList);
         }else{
             return result.successResult("当月暂无日志",null);
+        }
+    }
+
+    @RequestMapping("selectAllBlogs")
+    public Result<List<Blog>> selectAllBlogs(){
+        List<Blog> allBlog = blogService.selectAllBlogs();
+        if(allBlog.size()>0){
+            return result.successResult(allBlog);
+        }else{
+            return  result.successResult("无数据或获取失败");
         }
     }
 }

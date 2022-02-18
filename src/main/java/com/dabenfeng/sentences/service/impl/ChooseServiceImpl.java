@@ -17,8 +17,18 @@ public class ChooseServiceImpl implements ChooseService {
     }
 
     @Override
+    public List<Choose> getAllChoose() {
+        return chooseMapper.getAllChoose();
+    }
+
+    @Override
     public List<Choose> getChooseByPrefix(String prefix) {
         return chooseMapper.getChooseByPrefix(prefix);
+    }
+
+    @Override
+    public List<Choose> getAllChooseByPrefix(String prefix) {
+        return chooseMapper.getAllChooseByPrefix(prefix);
     }
 
     @Override

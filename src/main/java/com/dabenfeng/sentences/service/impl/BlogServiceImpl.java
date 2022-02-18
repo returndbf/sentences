@@ -30,4 +30,9 @@ public class BlogServiceImpl implements BlogService {
     public List<Blog> selectBlogsByMonth(Blog blog) {
         return blogMapper.selectBlogsByMonth(blog);
     }
+
+    @Override
+    public List<Blog> selectAllBlogs() {
+        return blogMapper.selectAllBlogs();
+    }
 }

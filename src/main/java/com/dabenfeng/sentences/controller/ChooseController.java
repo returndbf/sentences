@@ -24,9 +24,30 @@ public class ChooseController {
         return result.failResult() ;
     }
 
+    @RequestMapping("getAllChoose")
+    public Result<List<Choose>> getAllChoose(){
+        List<Choose> allChoose = chooseService.getAllChoose();
+        if(allChoose.size()>0&&allChoose!=null){
+            return result.successResult(allChoose);
+        }else{
+            return result.successResult("查询不到数据");
+        }
+    }
+    //删除不能查
     @RequestMapping("getChooseByPrefix")
     public Result<List<String>>  getChooseByPrefix(String prefix) {
         List<Choose> list = chooseService.getChooseByPrefix(prefix);
+        if(list.size()>0){
+            return result.successResult(list);
+        }else{
+            return result.successResult("无数据",null);
+        }
+
+    }
+    //删除也能查
+    @RequestMapping("getAllChooseByPrefix")
+    public Result<List<String>>  getAllChooseByPrefix(String prefix) {
+        List<Choose> list = chooseService.getAllChooseByPrefix(prefix);
         if(list.size()>0){
             return result.successResult(list);
         }else{

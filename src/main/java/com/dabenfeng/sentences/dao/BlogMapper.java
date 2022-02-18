@@ -15,11 +15,14 @@ public interface BlogMapper {
     @Select("SELECT count(1) FROM blogs where upload_time like concat('%',#{uploadTime},'%') and user_id = #{userId}")
     public Integer checkUserTodayBlogsCount(Blog blog);
 
-    @Select("select * from blogs where userId = #{userId} and del_flag =0")
+    @Select("select * from blogs where userId = #{userId} ")
     public List<Blog> selectBlogsByUserId(int UserId);
 
     @Select("select * from blogs where user_id = #{userId} and upload_month = #{uploadMonth} and upload_year = #{uploadYear} and del_flag =0")
     public List<Blog> selectBlogsByMonth(Blog blog);
+
+    @Select("select * from blogs")
+    public List<Blog> selectAllBlogs();
 
 
 }

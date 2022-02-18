@@ -13,4 +13,6 @@ public interface BlogService {
     public List<Blog> selectBlogsByUserId(int UserId);
 
     public List<Blog> selectBlogsByMonth(Blog blog);
+
+    public List<Blog> selectAllBlogs();
 }
