@@ -35,11 +35,14 @@ public class QiNiuUploadController {
 //        return auth.uploadToken(bucketName);
 //    }
 
-    @PostMapping("upImgs")
-    public Object uploadImgs(@RequestBody MultipartFile[] file)throws IOException {
-        HashMap hashMap = qiNiuUtil.saveImage(file);
-        return hashMap;
+//    @PostMapping("upImgs")
+//    public Object uploadImgs(@RequestBody MultipartFile[] file)throws IOException {
+//        HashMap hashMap = qiNiuUtil.saveImage(file);
+//        return hashMap;
+//    }
+    @PostMapping("testUpload")
+    public Object testUpload(MultipartFile file){
+       return  qiNiuUtil.uploadImg(file);
     }
-
 
 }

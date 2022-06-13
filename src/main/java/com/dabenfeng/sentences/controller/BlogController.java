@@ -5,6 +5,7 @@ import com.dabenfeng.sentences.entity.Blog;
 import com.dabenfeng.sentences.entity.Result;
 import com.dabenfeng.sentences.service.impl.BlogServiceImpl;
 import com.dabenfeng.sentences.utils.GetTimeUtils;
+import com.dabenfeng.sentences.utils.QiNiuUtil;
 import com.dabenfeng.sentences.utils.UploadUtils;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
@@ -29,9 +30,10 @@ public class BlogController {
     private GetTimeUtils getTimeUtils;
     @Resource
     private UploadUtils uploadUtils;
+    @Resource
+    private QiNiuUtil qiNiuUtil;
     @RequestMapping("insertBlog")
     public Result<String> insertBlog(Blog blog,@RequestBody(required = false) MultipartFile file){
-        //System.out.println(blog);
         int days = getUserTodayBlogs(blog);
         if(days >= 2){
             return result.failResult("今日日志已上限");
@@ -39,22 +41,17 @@ public class BlogController {
         String imgUrl = "";
         if(file !=null){
            try {
-               String uploadResult = uploadUtils.uploadToSanMaoPic(file);
-               JSONObject object = JSONObject.parseObject(uploadResult);
-               String dataStr = object.getObject("data",String.class);
-               JSONObject data = JSONObject.parseObject(dataStr);
-               String url = data.getString("url");
-               imgUrl = url;
-               //System.out.println(url);
-               //return result.successResult("上传成功",url);
+               String uploadResult = qiNiuUtil.uploadImg(file);
+               imgUrl = uploadResult;
                blog.setImg(imgUrl);
-           } catch (IOException e) {
+           } catch (Exception e) {
                e.printStackTrace();
                return result.failResult("图片上传失败");
            }
        }
         String currentTime = getTimeUtils.getCurrentTime();
         int currentMonth = getTimeUtils.getCurrentMonth();
+        System.out.println(currentMonth+"currentMonth");
         int currentYear = getTimeUtils.getCurrentYear();
         blog.setUploadYear(currentYear);
         blog.setUploadTime(currentTime);
@@ -66,14 +63,19 @@ public class BlogController {
             return result.failResult("添加失败");
         }
     }
-    @RequestMapping("uploadImgToSanMao")
-    public Object uploadImgToSanMao(MultipartFile file){
-        try {
-            return uploadUtils.uploadToSanMaoPic(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result.failResult();
+//    @RequestMapping("uploadImgToSanMao")
+//    public Object uploadImgToSanMao(MultipartFile file){
+//        try {
+//            return uploadUtils.uploadToSanMaoPic(file);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return result.failResult();
+//    }
+
+    @RequestMapping("uploadImgToQiNiu")
+    public Object uploadImgToQiNiu(MultipartFile file){
+        return qiNiuUtil.uploadImg(file);
     }
 
     public int getUserTodayBlogs(Blog blog){

@@ -9,11 +9,11 @@ import java.util.Date;
 @Component
 public class GetTimeUtils {
 
-//    public static void main(String[] args) {
-//        GetTimeUtils a=new GetTimeUtils();
-//        System.out.println(a.getCurrentMonth());
-//
-//    }
+    public static void main(String[] args) {
+        GetTimeUtils a=new GetTimeUtils();
+        System.out.println(a.getCurrentTime());
+    }
+
     Calendar cal = Calendar.getInstance();
     public  String getCurrentTime(){
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

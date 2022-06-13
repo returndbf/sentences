@@ -1,5 +1,6 @@
 package com.dabenfeng.sentences.utils;
 
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
@@ -18,7 +19,10 @@ import java.util.HashMap;
 import java.util.UUID;
 @Component
 public class UploadUtils {
-
+    String token ="";
+    public static void main(String[] args) {
+        System.out.println(new UploadUtils().getToken());
+    }
     public final static String IMG_PATH_PREFIX = "static/IMG";
     public static File upload(){
         String fileDirPath = ClassUtils.getDefaultClassLoader().getResource("static/IMG").getPath();
@@ -60,9 +64,32 @@ public class UploadUtils {
             }
             return "添加失败";
         }
+        public String getToken(){
+        String url = "https://pic.guokm.cn/api/v1/tokens";
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders headers = new HttpHeaders();
+            MultiValueMap<String,String> map = new LinkedMultiValueMap<>();
+            map.add("email","1668959325@qq.com");
+            map.add("password","qxf990919");
+            String trans = restTemplate.postForObject(url,new HttpEntity<>(map,headers),String.class);
+            JSONObject resObject = JSONObject.parseObject(trans);
+            boolean status = resObject.getBoolean("status");
+            if(status==true){
+                String data = resObject.getString("data");
+                JSONObject dataObject = JSONObject.parseObject(data);
+                String token = dataObject.getString("token");
+                this.token= token;
+                return token;
+            }
+            return "get token fail";
+        }
         //上传到叁猫的图床
         public String uploadToSanMaoPic(MultipartFile file) throws IOException {
-            String url = "https://pic.guokm.cn/api/upload";
+        if(token.equals("")){
+            getToken();
+        }
+
+            String url = "https://pic.guokm.cn/api/v1/upload";
            // FileSystemResource resource = new FileSystemResource((File) file);
             ByteArrayResource fileAsResource = new ByteArrayResource(file.getBytes()) {
                 @Override
@@ -78,7 +105,7 @@ public class UploadUtils {
             MultiValueMap<String,Object> map = new LinkedMultiValueMap<>();
             map.add("image",fileAsResource);
             HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.set("token","14f0d33aac35294d3d983182a1ba0040");
+            httpHeaders.set("Authorization",token);
 //            HttpEntity<MultiValueMap<String, String>> request =
 //                    new HttpEntity<MultiValueMap<String, String>>(map, httpHeaders);
             RestTemplate restTemplate = new RestTemplate();
